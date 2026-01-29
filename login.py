@@ -1,24 +1,20 @@
-import tkinter as tk
+from flask import Flask, render_template, request
 
+app = Flask(__name__)
+
+@app.route("/", methods=["GET", "POST"])
 def login():
-    if user.get() == "admin" and pwd.get() == "1234":
-        result.config(text="Login Successful")
-    else:
-        result.config(text="Login Failed")
+    result = ""
+    if request.method == "POST":
+        user = request.form["username"]
+        pwd = request.form["password"]
 
-root = tk.Tk()
-root.title("Login")
+        if user == "admin" and pwd == "1234":
+            result = "Login Successful"
+        else:
+            result = "Login Failed"
 
-user = tk.Entry(root)
-pwd = tk.Entry(root, show="*")
-tk.Label(root, text="Username").pack()
-user.pack()
-tk.Label(root, text="Password").pack()
-pwd.pack()
-tk.Button(root, text="Login", command=login).pack()
-result = tk.Label(root)
-result.pack()
+    return render_template("login.html", result=result)
 
-root.mainloop()
-# This code creates a simple login GUI using Tkinter.
-# It checks if the username is "admin" and the password is "1234".
+if __name__ == "__main__":
+    app.run(debug=True)
