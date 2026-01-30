@@ -8,3 +8,4 @@ for i in range(21):
     time.sleep(0.2)
 
 print("\nGame Loaded ✅")
+print("Enjoy 🎮")
