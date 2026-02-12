@@ -1,10 +1,6 @@
-FROM python:3.10
+FROM python:3.10-slim
 
 WORKDIR /app
+COPY hello.py .
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-COPY . .
-
-CMD ["python3", "simple_print.py"]
+CMD ["python3", "hello.py"]
