@@ -1,6 +1,7 @@
 FROM python:3.10-slim
 
-WORKDIR /app
+WORKDIR /hello
 COPY hello.py .
 
 CMD ["python3", "hello.py"]
+
