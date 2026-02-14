@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment{
-        DOCKER_IMAGE='myimage'
+        DOCKER_IMAGE='pipelineimage'
     }
     stages {
         stage('git clone') {
@@ -11,18 +11,14 @@ pipeline {
         }
         stage('docker build image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:$BUILD_NUMBER .'
+                sh 'docker build -t $DOCKER_IMAGE .'
            }
         }
-        stage('docker old container delete') {
+        stage('docker old container delete & make new container') {
             steps {
                 sh 'docker rm -f mycontainer || true'
+                sh 'docker run --name=mycontainer $DOCKER_IMAGE'
            }
         }
-        stage('docker run container') {
-            steps {
-                sh 'docker run --name=mycontainer myimage'
-           }
-        }        
     }
 }
