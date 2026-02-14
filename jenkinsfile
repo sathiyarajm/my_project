@@ -1,24 +1,25 @@
 pipeline {
     agent any
-
     stages {
-
-        stage('Checkout') {
+        stage('git clone') {
             steps {
-                checkout scm
-            }
+                git branch: 'main', credentialsId: 'sample_py', url: 'https://github.com/sathiyarajm/my_project.git'
+           }
         }
-
-        stage('Build Docker Image') {
+        stage('docker build image') {
             steps {
-                sh 'docker build -t python-app .'
-            }
+                sh 'docker build -t myimage .'
+           }
         }
-
-        stage('Run Docker Container') {
+        stage('docker old container delete') {
             steps {
-                sh 'docker run --rm python-app'
-            }
+                sh 'docker rm -f mycontainer || true'
+           }
         }
+        stage('docker run container') {
+            steps {
+                sh 'docker run --name=mycontainer myimage'
+           }
+        }        
     }
 }
